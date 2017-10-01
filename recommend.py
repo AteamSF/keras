@@ -1,7 +1,5 @@
 #Recommendation Model using Keras. Backend Theano!
 
-
-#%matplotlib inline
 from __future__ import division, print_function
 from theano.sandbox import cuda
 import utils
@@ -11,7 +9,7 @@ from IPython import get_ipython
 
 get_ipython().run_line_magic('matplotlib', 'inline')
 
-#path = "data/ml-20m/"
+#path = "data/ml-20m/" 
 path = "data/ml-small/"
 model_path = path + 'models/'
 if not os.path.exists(model_path): os.mkdir(model_path)
@@ -19,7 +17,6 @@ batch_size=64
 
 ratings = pd.read_csv(path+'ratings.csv')
 ratings.head()
-
 len(ratings)
 
 movie_names = pd.read_csv(path+'movies.csv').set_index('movieId')['title'].to_dict()
@@ -39,7 +36,7 @@ ratings.head()
 
 user_min, user_max, movie_min, movie_max = (ratings.userId.min(), ratings.userId.max(), ratings.movieId.min(), ratings.movieId.max())
 
-print(user_min, user_max, movie_min, movie_max)
+#print(user_min, user_max, movie_min, movie_max)
 
 np.random.seed = 42
 msk = np.random.rand(len(ratings)) < 0.8
@@ -55,24 +52,23 @@ topMovies=g.sort_values(ascending=False)[:15]
 top_r = ratings.join(topUsers, rsuffix='_r', how='inner', on='userId')
 top_r = top_r.join(topMovies, rsuffix='_r', how='inner', on='movieId')
 
-print(pd.crosstab(top_r.userId, top_r.movieId, top_r.rating, aggfunc=np.sum))
+#print(pd.crosstab(top_r.userId, top_r.movieId, top_r.rating, aggfunc=np.sum))
 
 def embedding_input(name, n_in, n_out, reg):
     inp = Input(shape=(1,), dtype='int64', name=name)
     return inp, Embedding(n_in, n_out, input_length=1, W_regularizer=l2(reg))(inp)
-#?? Embedding
 
 n_users = ratings.userId.nunique()
 n_movies = ratings.movieId.nunique()
 
-print(n_users, n_movies)
+#print(n_users, n_movies)
 
 n_factors = 50
 
 user_in, u = embedding_input('user_in', n_users, n_factors, 1e-4)
 movie_in, m = embedding_input('movie_in', n_movies, n_factors, 1e-4)
 
-print(m)
+#print(m)
 
 x = merge([u, m], mode='concat')
 x = Flatten()(x)
