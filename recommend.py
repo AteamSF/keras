@@ -84,7 +84,7 @@ print(nn.fit([trn.userId, trn.movieId], trn.rating, batch_size=64, nb_epoch=1, v
 pre = nn.predict([trn.userId, trn.movieId])
 
 #type(pre)
-pre[:10]
+print(pre[:10])
 
 #type(trn)
-trn[:10]
+print(trn[:10])
