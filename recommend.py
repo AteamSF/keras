@@ -1,4 +1,4 @@
-#Recommendation Model using Keras. Backend Theano!
+#Recommendation Model using Keras. Theano Backend. 
 
 from __future__ import division, print_function
 from theano.sandbox import cuda
